@@ -77,7 +77,7 @@ public class Launch4jMojo extends AbstractMojo {
     @Parameter(defaultValue = "launch4j", required = true)
     private String launch4jArtifactId;
 
-    @Parameter(defaultValue = "net.sf.launch4j", required = true)
+    @Parameter(defaultValue = "pro.javacard.launch4j", required = true)
     private String launch4jGroupId;
 
     // intentionally non-static non-final so it can be hacked with reflection if someone really needs to
@@ -92,7 +92,7 @@ public class Launch4jMojo extends AbstractMojo {
     @Parameter(defaultValue = "${session}", required = true, readonly = true)
     private MavenSession session;
 
-    @Parameter(defaultValue = "${project.remoteProjectRepositories}", required = true, readonly = true)
+    @Parameter(defaultValue = "${project.remotePluginRepositories}", required = true, readonly = true)
     private List<RemoteRepository> repositories;
 
     /**
