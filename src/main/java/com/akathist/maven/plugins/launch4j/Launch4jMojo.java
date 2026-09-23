@@ -762,7 +762,6 @@ public class Launch4jMojo extends AbstractMojo {
      * Decides which platform-specific bundle we need, based on the current operating system.
      */
     private Artifact chooseBinaryBits() throws MojoExecutionException {
-        String plat;
         String os = System.getProperty("os.name");
         String arch = System.getProperty("os.arch");
         getLog().debug("OS = " + os);
@@ -770,23 +769,21 @@ public class Launch4jMojo extends AbstractMojo {
 
         // See here for possible values of os.name:
         // http://lopica.sourceforge.net/os.html
-        if (os.startsWith("Windows")) {
-            plat = "win32";
-        } else if ("Linux".equals(os)) {
-            if ("amd64".equals(arch)) {
-                plat = "linux64";
-            } else {
-                plat = "linux";
-            }
-        } else if ("Solaris".equals(os) || "SunOS".equals(os)) {
-            plat = "solaris";
-        } else if ("Mac OS X".equals(os) || "Darwin".equals(os)) {
-            plat = "mac";
-        } else {
-            throw new MojoExecutionException("Sorry, Launch4j doesn't support the '" + os + "' OS.");
+        String family = os.startsWith("Windows") ? "win" : switch (os) {
+            case "Linux" -> "linux";
+            case "Mac OS X", "Darwin" -> "mac";
+            default -> null;
+        };
+        String cpu = switch (arch) {
+            case "amd64", "x86_64" -> "x64";
+            case "aarch64", "arm64" -> "arm64";
+            default -> null;
+        };
+        if (family == null || cpu == null) {
+            throw new MojoExecutionException("Unsupported platform: " + os + " " + arch);
         }
 
-        Artifact artifact = new DefaultArtifact(launch4jGroupId, launch4jArtifactId, "workdir-" + plat, "jar", getLaunch4jVersion());
+        Artifact artifact = new DefaultArtifact(launch4jGroupId, launch4jArtifactId, "workdir-" + family + "-" + cpu, "jar", getLaunch4jVersion());
         try {
             ArtifactRequest request = new ArtifactRequest(artifact, repositories, null);
 

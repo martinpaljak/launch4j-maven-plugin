@@ -41,7 +41,7 @@ Windows `.exe` files from Java applications as part of the Maven build process.
 - **`Launch4jMojo`** (`src/main/java/.../Launch4jMojo.java`) - The main Maven Mojo that executes during the `package`
   phase. Handles:
     - Loading configuration (either from POM or external Launch4j XML config via `<infile>`)
-    - Downloading platform-specific Launch4j binaries (win32, linux, linux64, mac, solaris)
+    - Downloading platform-specific Launch4j binaries (win-x64, win-arm64, linux-x64, linux-arm64, mac-x64, mac-arm64)
     - Building the Windows executable using Launch4j's `Builder`
 
 - **Configuration POJOs** - Mirror Launch4j's XML configuration structure:
@@ -73,4 +73,4 @@ Tests use `maven-plugin-testing-harness` with mock Maven projects in `src/test/r
 ## Platform-Specific Binaries
 
 Launch4j requires platform-specific binaries (ld, windres) that are downloaded as Maven artifacts with classifiers like
-`workdir-win32`, `workdir-linux64`, `workdir-mac`. These are unpacked to the local Maven repository and reused.
+`workdir-win-x64`, `workdir-linux-arm64`, `workdir-mac-arm64`. These are unpacked to the local Maven repository and reused.

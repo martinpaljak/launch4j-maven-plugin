@@ -16,7 +16,7 @@ applications. You can show a splash screen while the JRE loads, give your
 application a custom icon in the Windows task bar, set a more descriptive 
 process name (other than "java"), and set a variety of other process attributes.
 
-You can run Launch4j on Windows, Linux, Solaris, or OS X. You specify the 
+You can run Launch4j on Windows, Linux, or macOS. You specify the 
 configuration through an XML file. Please see the Launch4j site for more 
 information on this file. You can also set your configuration via the Launch4j 
 GUI.
