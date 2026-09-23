@@ -53,6 +53,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -344,6 +345,12 @@ public class Launch4jMojo extends AbstractMojo {
     @Parameter(defaultValue = "false")
     private boolean skip = false;
 
+    /**
+     * Timestamp written into the executable header for reproducible builds.
+     */
+    @Parameter(defaultValue = "${project.build.outputTimestamp}")
+    private String outputTimestamp;
+
     private File getJar() {
         return new File(jar);
     }
@@ -494,6 +501,10 @@ public class Launch4jMojo extends AbstractMojo {
         }
 
         final Builder builder = new Builder(new MavenLog(getLog()), workDir);
+        Long epoch = sourceDateEpoch(outputTimestamp);
+        if (epoch != null) {
+            builder.setSourceDateEpoch(epoch);
+        }
         try {
             builder.build();
         } catch (BuilderException e) {
@@ -791,6 +802,16 @@ public class Launch4jMojo extends AbstractMojo {
         } catch (ArtifactResolutionException e) {
             throw new MojoExecutionException(e);
         }
+    }
+
+    private static Long sourceDateEpoch(String outputTimestamp) {
+        if (outputTimestamp == null || outputTimestamp.length() < 2) {
+            return null;
+        }
+        if (outputTimestamp.chars().allMatch(Character::isDigit)) {
+            return Long.valueOf(outputTimestamp);
+        }
+        return OffsetDateTime.parse(outputTimestamp).toEpochSecond();
     }
 
     private File getBaseDir() {
