@@ -1,0 +1,65 @@
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+    branches:
+      - main
+      - next
+      - wip
+
+concurrency:
+  group: robot
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+name: Build robot
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        java: [ 17, 21, 25 ]
+    name: Java ${{ matrix.java }} build
+    env:
+      PUBLISH: ${{ matrix.java == '17' && ( github.ref == 'refs/heads/next' || startsWith(github.ref, 'refs/tags/v') ) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Setup Java
+        uses: actions/setup-java@v6
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: zulu
+          cache: maven
+      - name: Set up publishing
+        if: env.PUBLISH == 'true'
+        uses: martinpaljak/maven-ssh-deploy@v2
+        with:
+          host: mvn.javacard.pro
+          key: ${{ secrets.SSH_KEY }}
+          fingerprint: SHA256:auiF3nHWvDmvq2stDl+QEECCqMcDp+FY1/bDRnvxpRw
+      - name: Build and deploy
+        run: ./mvnw -B -U deploy -Dmaven.deploy.skip=${{ env.PUBLISH != 'true' }}
+
+  windows:
+    strategy:
+      matrix:
+        os: [ windows-2025, windows-11-arm ]
+    runs-on: ${{ matrix.os }}
+    name: Windows ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Setup Java
+        uses: actions/setup-java@v6
+        with:
+          java-version: 17
+          distribution: zulu
+          cache: maven
+      - name: Build and test
+        shell: pwsh
+        run: .\mvnw.cmd -B -U clean verify

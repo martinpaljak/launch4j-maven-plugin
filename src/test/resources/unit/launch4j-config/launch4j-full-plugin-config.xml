@@ -32,7 +32,7 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <groupId>pro.javacard.launch4j</groupId>
                 <artifactId>launch4j-maven-plugin</artifactId>
                 <configuration>
                     <headerType>gui</headerType>

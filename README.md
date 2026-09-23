@@ -2,8 +2,9 @@
 
 Originally hosted at http://9stmaryrd.com/tools/launch4j-maven-plugin/
 
-[![GH Actions](https://github.com/lukaszlenart/launch4j-maven-plugin/actions/workflows/maven.yml/badge.svg)](https://github.com/lukaszlenart/launch4j-maven-plugin/actions/workflows/maven.yml)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.akathist.maven.plugins.launch4j/launch4j-maven-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.akathist.maven.plugins.launch4j/launch4j-maven-plugin/)
+[![Build status](https://github.com/martinpaljak/launch4j-maven-plugin/actions/workflows/robot.yml/badge.svg?branch=next)](https://github.com/martinpaljak/launch4j-maven-plugin/actions)
+&nbsp;[![Maven version](https://img.shields.io/maven-metadata/v?label=mvn.javacard.pro&metadataUrl=https%3A%2F%2Fmvn.javacard.pro%2Fpublic-snapshots%2Fpro%2Fjavacard%2Flaunch4j%2Flaunch4j-maven-plugin%2Fmaven-metadata.xml)](https://mvn.javacard.pro/public-snapshots/pro/javacard/launch4j/launch4j-maven-plugin/)
+&nbsp;[![GPLv3 licensed](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://github.com/martinpaljak/launch4j-maven-plugin/blob/main/LICENSE)
 
  - [Documentation](#documentation)
  - [Version Notes](#version-notes)
